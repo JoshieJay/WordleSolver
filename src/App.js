@@ -1,12 +1,12 @@
+import { Outlet } from 'react-router-dom';
+import Header from './ReusableComponents/Header/Header';
 import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <div className='App'>
-      <div>This is the start of the Wordle Solver</div>
-      <a href="https://www.nytimes.com/games/wordle/index.html">Wordle Here</a>
+    <div>
+      <Header />
+      <Outlet />
     </div>
   );
 }
-
-export default App;
