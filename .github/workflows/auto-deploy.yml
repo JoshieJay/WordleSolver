@@ -16,6 +16,8 @@ jobs:
           cache: 'npm'
       - name: install
         run: npm install
+      - name: build
+        run: npm run build
       - name: Deploy with gh-pages
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
