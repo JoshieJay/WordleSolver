@@ -1,18 +1,85 @@
 .headerContainer {
   height: 80px;
   width: 100%;
-  background-color: grey;
+  background-color: lightgrey;
+  display: flex;
 }
 
-nav {
+.title {
+  flex-grow: 1;
+  height: 100%;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.titleLink {
+  height: 40px;
+  width: 200px;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: ease 1s;
+}
+
+.titleLink:hover {
+  background-color: gray;
+  transition: ease 1s;
+}
+
+.headerNav {
+  display: flex;
+  height: 100%;
+  align-items: center;
 }
 
 .linkContainer {
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  border: 1px solid black;
+  margin: 4px;
+}
+
+@media screen and (max-width: 500px) {
+  .headerContainer {
+    width: 100%;
+    background-color: lightgrey;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .title {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .headerNav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .linkContainer {
+    margin: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .linkButton {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+  }
 }
