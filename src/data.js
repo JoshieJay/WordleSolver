@@ -12951,3 +12951,43 @@ let words = [
 export function getAllWords() {
   return words;
 }
+export function getWordsValues(){
+
+  return words.map((word => {
+    return {id: word, value: calcWordValue(word)};
+  }));
+}
+
+function calcWordValue(word){
+  //Basic word values cause yea
+  let generatedValue;
+  generatedValue = (word.match(/a/) || []).length  +
+  (word.match(/b/) || []).length +
+  (word.match(/c/) || []).length +
+  (word.match(/d/) || []).length + 
+  (word.match(/e/) || []).length +
+  (word.match(/f/) || []).length +
+  (word.match(/g/) || []).length +
+  (word.match(/h/) || []).length +
+  (word.match(/i/) || []).length +
+  (word.match(/j/) || []).length +
+  (word.match(/k/) || []).length +
+  (word.match(/l/) || []).length +
+  (word.match(/m/) || []).length +
+  (word.match(/n/) || []).length +
+  (word.match(/o/) || []).length +
+  (word.match(/p/) || []).length +
+  (word.match(/q/) || []).length +
+  (word.match(/r/) || []).length +
+  (word.match(/s/) || []).length +
+  (word.match(/t/) || []).length +
+  (word.match(/u/) || []).length +
+  (word.match(/v/) || []).length +
+  (word.match(/w/) || []).length +
+  (word.match(/x/) || []).length +
+  (word.match(/y/) || []).length +
+  (word.match(/z/) || []).length;
+  
+  return generatedValue;
+
+}

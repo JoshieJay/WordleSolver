@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import MainPage from './Pages/MainPage/MainPage';
 import Solver from './Pages/Solver/Solver';
+import WordList from './Pages/WordList/WordList';
 
 const rootElement = document.getElementById('root');
 render(
@@ -22,6 +23,7 @@ render(
           />
           <Route path='/home' element={<MainPage />} />
           <Route path='/solver' element={<Solver />} />
+          <Route path='/WordList' element={<WordList />} />
           <Route
             path='*'
             element={

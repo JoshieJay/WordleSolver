@@ -16,7 +16,7 @@ export default function Header() {
           </Link>
         </div>
         <div className='linkContainer'>
-          <Link to={`/word_list`} className='linkButton'>
+          <Link to={`/wordlist`} className='linkButton'>
             <Button text='Word List' fluid />
           </Link>
         </div>
