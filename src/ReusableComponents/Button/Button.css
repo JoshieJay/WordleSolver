@@ -8,10 +8,15 @@ button {
   border-radius: 5px;
   transition: ease 1s;
   font-weight: bold;
+  min-width: 120px;
 }
 
 button:hover {
   background-color: purple;
   color: white;
   border: 2px solid purple;
+}
+
+.fluid {
+  width: 100%;
 }

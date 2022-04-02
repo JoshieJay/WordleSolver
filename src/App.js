@@ -6,7 +6,9 @@ export default function App() {
   return (
     <div>
       <Header />
-      <Outlet />
+      <div style={{ padding: 8 }}>
+        <Outlet />
+      </div>
     </div>
   );
 }
