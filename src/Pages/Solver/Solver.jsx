@@ -192,7 +192,7 @@ export default function Solver() {
       <hr />
       <Button text='Solve!' clickHandler={handleSolve} />
       <hr />
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }}>
         {guessWords.map((word) => {
           return (
             <div
