@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import './LetterInput.css';
 
-export default function ListInput({ identifier, getLetters }) {
+export default function ListInput({
+  identifier,
+  getLetters,
+  position,
+  disabled,
+  value,
+}) {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    getLetters(inputValue);
+    if (value) {
+      setInputValue(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    getLetters(inputValue, position);
   }, [inputValue]);
 
   function isLetter(str) {
@@ -41,6 +53,7 @@ export default function ListInput({ identifier, getLetters }) {
         value={inputValue}
         onChange={handleValueChange}
         onBlur={removeDuplicates}
+        disabled={disabled}
       />
     </div>
   );

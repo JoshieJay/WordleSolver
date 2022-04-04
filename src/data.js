@@ -12951,43 +12951,124 @@ let words = [
 export function getAllWords() {
   return words;
 }
-export function getWordsValues(){
 
-  return words.map((word => {
-    return {id: word, value: calcWordValue(word)};
-  }));
+export function getValidWords(
+  positions,
+  correct,
+  incorrect,
+  incorrectPositions
+) {
+  // Turn the list of correct letters into an array
+  const correctArray = correct.split('').map((letter) => letter.toUpperCase());
+  const incorrectArray = incorrect
+    .split('')
+    .map((letter) => letter.toUpperCase());
+  return (
+    words
+      // Filter to words that contain letters in the correct positions
+      .filter((word) => {
+        // Split the current word into an array
+        const wordArray = word.split('').map((letter) => letter.toUpperCase());
+        let isValid = true;
+        // Return words that contain specific letters in specific positions
+        wordArray.forEach((letter, index) => {
+          const pos = index + 1;
+          if (positions[pos]) {
+            if (positions[pos].toUpperCase() !== letter.toUpperCase()) {
+              isValid = false;
+            }
+          }
+        });
+        return isValid;
+      })
+      // Filter to words that don't have letters in certain positions
+      .filter((word) => {
+        // Split the current word into an array
+        const wordArray = word.split('').map((letter) => letter.toUpperCase());
+        let isValid = true;
+        // Return words that don't contain specific letters in specific positions
+
+        wordArray.forEach((letter, index) => {
+          const pos = index + 1;
+
+          if (incorrectPositions[pos]) {
+            const ipArray = incorrectPositions[pos]
+              .split('')
+              .map((letter) => letter.toUpperCase());
+            if (ipArray.includes(letter.toUpperCase())) {
+              isValid = false;
+            }
+          }
+        });
+        return isValid;
+      })
+      // Filter to words that contain all correct letters
+      .filter((word) => {
+        // Split the current word into an array
+        const wordArray = word.split('').map((letter) => letter.toUpperCase());
+        // check for words that contain all of the correct letters
+        if (correctArray.length) {
+          return correctArray.every((letter) => {
+            return wordArray.includes(letter);
+          });
+        } else {
+          // If no correct letters were passed then all words are valid for this step
+          return true;
+        }
+      })
+      // Filter to words that don't contain any wrong letters
+      .filter((word) => {
+        // Split the current word into an array
+        const wordArray = word.split('').map((letter) => letter.toUpperCase());
+        // check for words that contain any of the incorrect letters
+        if (incorrectArray.length) {
+          return !incorrectArray.some((letter) => {
+            return wordArray.includes(letter);
+          });
+        } else {
+          // If no incorrect letters were passed then all words are valid for this step
+          return true;
+        }
+      })
+  );
 }
 
-function calcWordValue(word){
+export function getWordsValues() {
+  return words.map((word) => {
+    return { id: word, value: calcWordValue(word) };
+  });
+}
+
+function calcWordValue(word) {
   //Basic word values cause yea
   let generatedValue;
-  generatedValue = (word.match(/a/) || []).length  +
-  (word.match(/b/) || []).length +
-  (word.match(/c/) || []).length +
-  (word.match(/d/) || []).length + 
-  (word.match(/e/) || []).length +
-  (word.match(/f/) || []).length +
-  (word.match(/g/) || []).length +
-  (word.match(/h/) || []).length +
-  (word.match(/i/) || []).length +
-  (word.match(/j/) || []).length +
-  (word.match(/k/) || []).length +
-  (word.match(/l/) || []).length +
-  (word.match(/m/) || []).length +
-  (word.match(/n/) || []).length +
-  (word.match(/o/) || []).length +
-  (word.match(/p/) || []).length +
-  (word.match(/q/) || []).length +
-  (word.match(/r/) || []).length +
-  (word.match(/s/) || []).length +
-  (word.match(/t/) || []).length +
-  (word.match(/u/) || []).length +
-  (word.match(/v/) || []).length +
-  (word.match(/w/) || []).length +
-  (word.match(/x/) || []).length +
-  (word.match(/y/) || []).length +
-  (word.match(/z/) || []).length;
-  
-  return generatedValue;
+  generatedValue =
+    (word.match(/a/) || []).length +
+    (word.match(/b/) || []).length +
+    (word.match(/c/) || []).length +
+    (word.match(/d/) || []).length +
+    (word.match(/e/) || []).length +
+    (word.match(/f/) || []).length +
+    (word.match(/g/) || []).length +
+    (word.match(/h/) || []).length +
+    (word.match(/i/) || []).length +
+    (word.match(/j/) || []).length +
+    (word.match(/k/) || []).length +
+    (word.match(/l/) || []).length +
+    (word.match(/m/) || []).length +
+    (word.match(/n/) || []).length +
+    (word.match(/o/) || []).length +
+    (word.match(/p/) || []).length +
+    (word.match(/q/) || []).length +
+    (word.match(/r/) || []).length +
+    (word.match(/s/) || []).length +
+    (word.match(/t/) || []).length +
+    (word.match(/u/) || []).length +
+    (word.match(/v/) || []).length +
+    (word.match(/w/) || []).length +
+    (word.match(/x/) || []).length +
+    (word.match(/y/) || []).length +
+    (word.match(/z/) || []).length;
 
+  return generatedValue;
 }

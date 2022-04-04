@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getValidWords } from '../../data';
 import Button from '../../ReusableComponents/Button/Button';
 import ListInput from '../../ReusableComponents/LetterInput/ListInput';
 import WordInput from '../../ReusableComponents/LetterInput/WordInput';
@@ -8,6 +9,8 @@ export default function Solver() {
   const [positions, setPositions] = useState({});
   const [correctLetters, setCorrectLetters] = useState();
   const [incorrectLetters, setIncorrectLetters] = useState();
+  const [incorrectPositions, setIncorrectPositions] = useState({});
+  const [guessWords, setGuessWords] = useState([]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -24,6 +27,51 @@ export default function Solver() {
 
   function getIncorrectLetters(_il) {
     setIncorrectLetters(_il);
+  }
+
+  function getIncorrectPositions(letters, position) {
+    const newCp = JSON.parse(JSON.stringify(incorrectPositions));
+    newCp[position] = letters;
+    setIncorrectPositions(newCp);
+
+    let newCl = '';
+    Object.keys(newCp).forEach((key) => {
+      if (newCp[key]) {
+        newCl += newCp[key];
+      }
+    });
+    setCorrectLetters(removeDuplicates(newCl));
+  }
+
+  function removeDuplicates(inputValue) {
+    const letterArray = [];
+    const iv = JSON.parse(JSON.stringify(inputValue));
+    iv.split('').forEach((letter) => {
+      if (!letterArray.includes(letter)) {
+        letterArray.push(letter);
+      }
+    });
+    return letterArray.sort().join('');
+  }
+
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
   }
 
   function handleKeyPress(e) {
@@ -84,10 +132,6 @@ export default function Solver() {
   }
 
   function handleSolve() {
-    console.log('----- Solve Params -----');
-    console.log('Letter Positions', positions);
-    console.log('Correct Letters', correctLetters);
-    console.log('Incorrect Letters', incorrectLetters);
     const clArray = correctLetters.split('');
     const ilArray = incorrectLetters.split('');
     if (
@@ -108,6 +152,15 @@ export default function Solver() {
         })
       ) {
         alert('Correct Positions can not exist in Incorrect Letters');
+      } else {
+        // valid
+        const validWords = getValidWords(
+          positions,
+          correctLetters,
+          incorrectLetters,
+          incorrectPositions
+        );
+        setGuessWords(validWords);
       }
     }
   }
@@ -118,12 +171,48 @@ export default function Solver() {
       <WordInput getPositions={getPositions} />
       <hr />
       <div>Correct Letters</div>
-      <ListInput getLetters={getCorrectLetters} />
+      <ListInput
+        getLetters={getCorrectLetters}
+        disabled
+        value={correctLetters}
+      />
+      <div>Not In Position 1</div>
+      <ListInput getLetters={getIncorrectPositions} position={1} />
+      <div>Not In Position 2</div>
+      <ListInput getLetters={getIncorrectPositions} position={2} />
+      <div>Not In Position 3</div>
+      <ListInput getLetters={getIncorrectPositions} position={3} />
+      <div>Not In Position 4</div>
+      <ListInput getLetters={getIncorrectPositions} position={4} />
+      <div>Not In Position 5</div>
+      <ListInput getLetters={getIncorrectPositions} position={5} />
       <hr />
       <div>Incorrect Letters</div>
       <ListInput getLetters={getIncorrectLetters} />
       <hr />
       <Button text='Solve!' clickHandler={handleSolve} />
+      <hr />
+      <div style={{ display: 'flex' }}>
+        {guessWords.map((word) => {
+          return (
+            <div
+              key={word}
+              style={{
+                height: 30,
+                width: 50,
+                border: '2px solid black',
+                borderRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 4,
+              }}
+            >
+              {word}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
