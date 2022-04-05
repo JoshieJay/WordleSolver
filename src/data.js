@@ -13032,43 +13032,62 @@ export function getValidWords(
       })
   );
 }
+export function getWordsValues(){
 
-export function getWordsValues() {
-  return words.map((word) => {
-    return { id: word, value: calcWordValue(word) };
-  });
+  let letters = calcLetterValue()
+  return words.map((word => {
+    return {id: word, value: calcWordValue(word, letters)};
+  }));
 }
-
-function calcWordValue(word) {
+function calcLetterValue(){
+  let letterValues = Array(26);
+  let alpha = Array.from(Array(26)).map((e, i) => i + 65);
+  let alphabet = alpha.map((x) => String.fromCharCode(x));
+  let y = 0;
+  let value = 0;
+  alphabet.forEach(letter => {
+    value = 0
+    var regex = new RegExp(letter, 'gi');
+    words.forEach(word => 
+      {
+        value = value + (word.match(regex) || []).length;
+      })
+    letterValues[y] = value;
+    y++;
+    
+  });
+  return letterValues;
+}
+function calcWordValue(word, letters){
   //Basic word values cause yea
   let generatedValue;
-  generatedValue =
-    (word.match(/a/) || []).length +
-    (word.match(/b/) || []).length +
-    (word.match(/c/) || []).length +
-    (word.match(/d/) || []).length +
-    (word.match(/e/) || []).length +
-    (word.match(/f/) || []).length +
-    (word.match(/g/) || []).length +
-    (word.match(/h/) || []).length +
-    (word.match(/i/) || []).length +
-    (word.match(/j/) || []).length +
-    (word.match(/k/) || []).length +
-    (word.match(/l/) || []).length +
-    (word.match(/m/) || []).length +
-    (word.match(/n/) || []).length +
-    (word.match(/o/) || []).length +
-    (word.match(/p/) || []).length +
-    (word.match(/q/) || []).length +
-    (word.match(/r/) || []).length +
-    (word.match(/s/) || []).length +
-    (word.match(/t/) || []).length +
-    (word.match(/u/) || []).length +
-    (word.match(/v/) || []).length +
-    (word.match(/w/) || []).length +
-    (word.match(/x/) || []).length +
-    (word.match(/y/) || []).length +
-    (word.match(/z/) || []).length;
-
+  generatedValue = (word.match(/a/) || []).length * letters[0]  +
+  (word.match(/b/) || []).length * letters[1] +
+  (word.match(/c/) || []).length * letters[2]+
+  (word.match(/d/) || []).length * letters[3]+ 
+  (word.match(/e/) || []).length * letters[4]+
+  (word.match(/f/) || []).length * letters[5]+
+  (word.match(/g/) || []).length * letters[6]+
+  (word.match(/h/) || []).length * letters[7]+
+  (word.match(/i/) || []).length * letters[8]+
+  (word.match(/j/) || []).length * letters[9]+
+  (word.match(/k/) || []).length * letters[10]+
+  (word.match(/l/) || []).length * letters[11]+
+  (word.match(/m/) || []).length * letters[12]+
+  (word.match(/n/) || []).length * letters[13]+
+  (word.match(/o/) || []).length * letters[14]+
+  (word.match(/p/) || []).length * letters[15]+
+  (word.match(/q/) || []).length * letters[16]+
+  (word.match(/r/) || []).length * letters[17]+
+  (word.match(/s/) || []).length * letters[18]+
+  (word.match(/t/) || []).length * letters[19]+
+  (word.match(/u/) || []).length * letters[20]+
+  (word.match(/v/) || []).length * letters[21]+
+  (word.match(/w/) || []).length * letters[22]+
+  (word.match(/x/) || []).length * letters[23]+
+  (word.match(/y/) || []).length * letters[24]+
+  (word.match(/z/) || []).length * letters[25];
+  
   return generatedValue;
+
 }
