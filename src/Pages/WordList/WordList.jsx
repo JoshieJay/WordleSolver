@@ -3,15 +3,20 @@ import { getWordsValues } from '../../data';
 
 export default function WordList() {
   return (
-    <div>
+    <table>
+    <tr>
+      <th>Word</th>
+      <th data-type="number">Value</th>
+    </tr>   
     {getWordsValues().map(words =>{
       return(
-        <div>
-          {words.id} value {words.value}
-            </div>
+        <tr>
+          <td>{words.id}</td>
+          <td>{words.value}</td>
+        </tr>
       )
     })
-    }  
- </div>
+    } 
+</table>
   );
 }
