@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getValidWords } from '../../data';
+import { getValidWords, sortWordValues } from '../../data';
 import Button from '../../ReusableComponents/Button/Button';
 import ListInput from '../../ReusableComponents/LetterInput/ListInput';
 import WordInput from '../../ReusableComponents/LetterInput/WordInput';
@@ -164,7 +164,7 @@ export default function Solver() {
       }
     }
   }
-
+  let wordValue = 0;
   return (
     <div>
       <div>Correct Positions</div>
@@ -193,24 +193,26 @@ export default function Solver() {
       <Button text='Solve!' clickHandler={handleSolve} />
       <hr />
       <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }}>
-        {guessWords.map((word) => {
+        {guessWords.sort(sortWordValues).map((word, index) => {
+          index === 0 ? wordValue = word.value : word.value = word.value;
           return (
             <div
-              key={word}
+              key={word.id}
               style={{
-                height: 30,
-                width: 50,
-                border: '2px solid black',
+                height: 40,
+                width: 70,
+                border:  word.value === wordValue ? '2px solid green' : '2px solid black',                
                 borderRadius: 5,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 margin: 4,
-              }}
+              }
+            }
             >
-              {word}
+              {word.id }<br/>{word.value}          
             </div>
-          );
+          );         
         })}
       </div>
     </div>

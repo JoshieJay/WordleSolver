@@ -12964,9 +12964,9 @@ export function getValidWords(
     .split('')
     .map((letter) => letter.toUpperCase());
   return (
-    words
+    getWordsValues(
       // Filter to words that contain letters in the correct positions
-      .filter((word) => {
+      words.filter((word) => {
         // Split the current word into an array
         const wordArray = word.split('').map((letter) => letter.toUpperCase());
         let isValid = true;
@@ -13029,13 +13029,17 @@ export function getValidWords(
           // If no incorrect letters were passed then all words are valid for this step
           return true;
         }
-      })
+      }))
   );
 }
-export function getWordsValues(){
+export function sortWordValues(word1, word2)
+{
+    return word1.value < word2.value ? 1:-1;
+}
+export function getWordsValues(validWords){
 
   let letters = calcLetterValue()
-  return words.map((word => {
+  return validWords.map((word => {
     return {id: word, value: calcWordValue(word, letters)};
   }));
 }
