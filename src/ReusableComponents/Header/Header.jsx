@@ -6,17 +6,17 @@ import Button from '../Button/Button';
 export default function Header() {
   return (
     <div className='headerContainer'>
-      <Link to='/home' className='title'>
+      <Link to='WordleSolver/Home' className='title'>
         <div className='titleLink'>Wordle Solver</div>
       </Link>
       <nav className='headerNav'>
         <div className='linkContainer'>
-          <Link to={`/solver`} className='linkButton'>
+          <Link to={`WordleSolver/Solver`} className='linkButton'>
             <Button text='Solver' fluid />
           </Link>
         </div>
         <div className='linkContainer'>
-          <Link to={`/wordlist`} className='linkButton'>
+          <Link to={`WordleSolver/WordList`} className='linkButton'>
             <Button text='Word List' fluid />
           </Link>
         </div>

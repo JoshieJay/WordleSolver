@@ -21,9 +21,9 @@ render(
               </div>
             }
           />
-          <Route path='/home' element={<MainPage />} />
-          <Route path='/solver' element={<Solver />} />
-          <Route path='/WordList' element={<WordList />} />
+          <Route path='/WordleSolver/Home' element={<MainPage />} />
+          <Route path='/WordleSolver/Solver' element={<Solver />} />
+          <Route path='/WordleSolver/WordList' element={<WordList />} />
           <Route
             path='*'
             element={

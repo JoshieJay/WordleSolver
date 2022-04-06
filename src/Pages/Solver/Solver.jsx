@@ -54,26 +54,6 @@ export default function Solver() {
     return letterArray.sort().join('');
   }
 
-  function shuffle(array) {
-    let currentIndex = array.length,
-      randomIndex;
-
-    // While there remain elements to shuffle...
-    while (currentIndex != 0) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-
-    return array;
-  }
-
   function handleKeyPress(e) {
     const validKeyPresses = ['ArrowRight', 'ArrowLeft', 'Enter', 'NumpadEnter'];
     if (validKeyPresses.includes(e.code) && !e.repeat) {
@@ -164,7 +144,12 @@ export default function Solver() {
       }
     }
   }
-  let wordValue = 0;
+
+  function getColor(value) {
+    var hue = (value * 120).toString(10);
+    return [`hsl(${hue}, 75%, 50%)`].join('');
+  }
+
   return (
     <div>
       <div>Correct Positions</div>
@@ -194,25 +179,26 @@ export default function Solver() {
       <hr />
       <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }}>
         {guessWords.sort(sortWordValues).map((word, index) => {
-          index === 0 ? wordValue = word.value : word.value = word.value;
+          const maxValue = guessWords[0].value;
           return (
             <div
               key={word.id}
               style={{
                 height: 40,
                 width: 70,
-                border:  word.value === wordValue ? '2px solid green' : '2px solid black',                
+                border: `2px solid ${getColor(word.value / maxValue)}`,
                 borderRadius: 5,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 margin: 4,
-              }
-            }
+              }}
             >
-              {word.id }<br/>{word.value}          
+              {word.id}
+              <br />
+              {word.value}
             </div>
-          );         
+          );
         })}
       </div>
     </div>
