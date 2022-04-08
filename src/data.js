@@ -13038,60 +13038,78 @@ export function sortWordValues(word1, word2) {
 }
 
 export function getWordsValues(validWords) {
-  let letters = calcLetterValue();
+  let letters = calcLetterValue(validWords);
   return validWords.map((word) => {
     return { id: word, value: calcWordValue(word, letters) };
   });
 }
 
-function calcLetterValue() {
+function calcLetterValue(validWords) {
   let letterValues = Array(26);
+  const valuePos = [0, 0, 0, 0, 0]
   let alpha = Array.from(Array(26)).map((e, i) => i + 65);
   let alphabet = alpha.map((x) => String.fromCharCode(x));
   let y = 0;
   let value = 0;
+  let pos = -1;
   alphabet.forEach((letter) => {
     value = 0;
     var regex = new RegExp(letter, 'gi');
-    words.forEach((word) => {
+    validWords.forEach((word) => {
       value = value + (word.match(regex) || []).length;
+      pos = word.indexOf(letter.toLowerCase());
+      while (pos >= 0 ){
+        valuePos[pos] += 1;
+        let startingPos = pos + 1;
+        pos = word.indexOf(letter.toLowerCase(), startingPos);
+      };
     });
+    // let maxPosValue = Math.max.apply(Math, valuePos);
     letterValues[y] = value;
     y++;
+    valuePos[0] = 0;
+    valuePos[1] = 0;
+    valuePos[2] = 0;
+    valuePos[3] = 0;
+    valuePos[4] = 0;
   });
   return letterValues;
 }
 
 function calcWordValue(word, letters) {
   //Basic word values cause yea
-  let generatedValue;
-  generatedValue =
-    (word.match(/a/) || []).length * letters[0] +
-    (word.match(/b/) || []).length * letters[1] +
-    (word.match(/c/) || []).length * letters[2] +
-    (word.match(/d/) || []).length * letters[3] +
-    (word.match(/e/) || []).length * letters[4] +
-    (word.match(/f/) || []).length * letters[5] +
-    (word.match(/g/) || []).length * letters[6] +
-    (word.match(/h/) || []).length * letters[7] +
-    (word.match(/i/) || []).length * letters[8] +
-    (word.match(/j/) || []).length * letters[9] +
-    (word.match(/k/) || []).length * letters[10] +
-    (word.match(/l/) || []).length * letters[11] +
-    (word.match(/m/) || []).length * letters[12] +
-    (word.match(/n/) || []).length * letters[13] +
-    (word.match(/o/) || []).length * letters[14] +
-    (word.match(/p/) || []).length * letters[15] +
-    (word.match(/q/) || []).length * letters[16] +
-    (word.match(/r/) || []).length * letters[17] +
-    (word.match(/s/) || []).length * letters[18] +
-    (word.match(/t/) || []).length * letters[19] +
-    (word.match(/u/) || []).length * letters[20] +
-    (word.match(/v/) || []).length * letters[21] +
-    (word.match(/w/) || []).length * letters[22] +
-    (word.match(/x/) || []).length * letters[23] +
-    (word.match(/y/) || []).length * letters[24] +
-    (word.match(/z/) || []).length * letters[25];
-
+  let generatedValue = 0;
+  const regexMap = {
+    0: 'a',
+    1: 'b',
+    2: 'c',
+    3: 'd',
+    4: 'e',
+    5: 'f',
+    6: 'g',
+    7: 'h',
+    8: 'i',
+    9: 'j',
+    10: 'k',
+    11: 'l',
+    12: 'm',
+    13: 'n',
+    14: 'o',
+    15: 'p',
+    16: 'q',
+    17: 'r',
+    18: 's',
+    19: 't',
+    20: 'u',
+    21: 'v',
+    22: 'w',
+    23: 'x',
+    24: 'y',
+    25: 'z',
+  };
+  letters.forEach((letter, index) => {
+    var regex = new RegExp(regexMap[index], 'i');
+  generatedValue += (word.match(regex) || []).length * letter
+});
   return generatedValue;
-}
+};
