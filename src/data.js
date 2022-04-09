@@ -13038,34 +13038,39 @@ export function sortWordValues(word1, word2) {
 }
 
 export function getWordsValues(validWords) {
-  let letters = calcLetterValue(validWords);
+  let letters = calcLetterValue();
   return validWords.map((word) => {
     return { id: word, value: calcWordValue(word, letters) };
   });
 }
 
-function calcLetterValue(validWords) {
-  let letterValues = Array(26);
-  const valuePos = [0, 0, 0, 0, 0]
-  let alpha = Array.from(Array(26)).map((e, i) => i + 65);
+function calcLetterValue() {
+  let letterValues = Array.from(Array(26), () => new Array(5));
+  const valuePos = [0, 0, 0, 0, 0];
+  let alpha = Array.from(Array(26)).map((e, i) => i + 97);
   let alphabet = alpha.map((x) => String.fromCharCode(x));
   let y = 0;
   let value = 0;
   let pos = -1;
   alphabet.forEach((letter) => {
+    console.log(letter);
     value = 0;
     var regex = new RegExp(letter, 'gi');
-    validWords.forEach((word) => {
+    words.forEach((word) => {
       value = value + (word.match(regex) || []).length;
-      pos = word.indexOf(letter.toLowerCase());
+      pos = word.indexOf(letter);
       while (pos >= 0 ){
         valuePos[pos] += 1;
         let startingPos = pos + 1;
-        pos = word.indexOf(letter.toLowerCase(), startingPos);
+        pos = word.indexOf(letter, startingPos);
       };
     });
-    // let maxPosValue = Math.max.apply(Math, valuePos);
-    letterValues[y] = value;
+    letterValues[y][0] = value;
+    letterValues[y][1] = valuePos[0];
+    letterValues[y][2] = valuePos[1];
+    letterValues[y][3] = valuePos[2];
+    letterValues[y][4] = valuePos[3];
+    letterValues[y][5] = valuePos[4];
     y++;
     valuePos[0] = 0;
     valuePos[1] = 0;
@@ -13079,6 +13084,7 @@ function calcLetterValue(validWords) {
 function calcWordValue(word, letters) {
   //Basic word values cause yea
   let generatedValue = 0;
+  let pos = -1;
   const regexMap = {
     0: 'a',
     1: 'b',
@@ -13109,7 +13115,13 @@ function calcWordValue(word, letters) {
   };
   letters.forEach((letter, index) => {
     var regex = new RegExp(regexMap[index], 'i');
-  generatedValue += (word.match(regex) || []).length * letter
+    generatedValue += (word.match(regex) || []).length * letter[0]
+    pos = word.indexOf(regexMap[index]);
+    while (pos >= 0 ){
+      let startingPos = pos + 1;
+      generatedValue += letter[startingPos]
+      pos = word.indexOf(regexMap[index], startingPos);
+    };
 });
   return generatedValue;
 };
