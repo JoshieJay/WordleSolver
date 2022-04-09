@@ -13053,7 +13053,6 @@ function calcLetterValue() {
   let value = 0;
   let pos = -1;
   alphabet.forEach((letter) => {
-    console.log(letter);
     value = 0;
     var regex = new RegExp(letter, 'gi');
     words.forEach((word) => {
@@ -13065,12 +13064,26 @@ function calcLetterValue() {
         pos = word.indexOf(letter, startingPos);
       };
     });
+    // Test Changing position values to smaller differences  
+    const newValuePos = [0, 0, 0, 0, 0];
+    for (let j = 5; j > 0; j--)
+    {
+      let max = Math.max(...valuePos);
+      for (let i = 0; i < valuePos.length; i++)
+      {
+        if (max === valuePos[i])
+        {
+          newValuePos[i] = j;
+          valuePos[i] = 0;
+        }
+      };
+    };
     letterValues[y][0] = value;
-    letterValues[y][1] = valuePos[0];
-    letterValues[y][2] = valuePos[1];
-    letterValues[y][3] = valuePos[2];
-    letterValues[y][4] = valuePos[3];
-    letterValues[y][5] = valuePos[4];
+    letterValues[y][1] = newValuePos[0];
+    letterValues[y][2] = newValuePos[1];
+    letterValues[y][3] = newValuePos[2];
+    letterValues[y][4] = newValuePos[3];
+    letterValues[y][5] = newValuePos[4];
     y++;
     valuePos[0] = 0;
     valuePos[1] = 0;
@@ -13118,7 +13131,7 @@ function calcWordValue(word, letters) {
     generatedValue += (word.match(regex) || []).length * letter[0]
     pos = word.indexOf(regexMap[index]);
     while (pos >= 0 ){
-      let startingPos = pos + 1;
+      let startingPos = pos + 1;  
       generatedValue += letter[startingPos]
       pos = word.indexOf(regexMap[index], startingPos);
     };
